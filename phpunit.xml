@@ -13,7 +13,8 @@
 		>
 	<testsuites>
 		<testsuite name="WP Forms Test Suite">
-			<directory>./general</directory>
+            <directory>./general</directory>
+            <directory>./rendering</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
