@@ -15,6 +15,9 @@
 		<testsuite name="WP Forms Test Suite">
 			<directory>./general</directory>
 			<directory>./elements</directory>
+			<directory>./views</directory>
+			<directory>./decorators</directory>
+			<directory>./forms</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
