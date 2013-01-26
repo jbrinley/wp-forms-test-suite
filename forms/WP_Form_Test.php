@@ -111,11 +111,11 @@ class WP_Form_Test extends WP_UnitTestCase {
 
 		$form->add_class('class1')->add_class('class2');
 		$classes = $form->get_attribute('class');
-		$this->assertContains('class1', $classes);
-		$this->assertContains('class2', $classes);
+		$this->assertTrue(strpos($classes, 'class1') !== FALSE);
+		$this->assertTrue(strpos($classes, 'class2') !== FALSE);
 
 		$form->set_attribute('class', 'red blue');
-		$classes = $form->get_attribute('class');
+		$classes = $form->get_classes();
 		$this->assertTrue(is_array($classes));
 		$this->assertContains('red', $classes);
 		$this->assertContains('blue', $classes);

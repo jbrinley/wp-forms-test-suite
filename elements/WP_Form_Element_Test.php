@@ -10,14 +10,6 @@ class WP_Form_Element_Test extends WP_UnitTestCase {
 		$this->assertInstanceOf('WP_Form_Element', $element);
 		$this->assertInstanceOf('WP_Form_Element_Text', $element);
 
-		$element = WP_Form_Element::create('hidden');
-		$this->assertInstanceOf('WP_Form_Element', $element);
-		$this->assertInstanceOf('WP_Form_Element_Hidden', $element);
-
-		$element = WP_Form_Element::create('submit');
-		$this->assertInstanceOf('WP_Form_Element', $element);
-		$this->assertInstanceOf('WP_Form_Element_Submit', $element);
-
 		// fall back to text if type doesn't have a class
 		$element = WP_Form_Element::create('not_an_element_type');
 		$this->assertInstanceOf('WP_Form_Element', $element);
@@ -43,12 +35,6 @@ class WP_Form_Element_Test extends WP_UnitTestCase {
 		$element = WP_Form_Element::create('text');
 		$this->assertEquals('text', $element->get_type());
 		$this->assertEquals('text', $element->type);
-
-		$element = WP_Form_Element::create('hidden');
-		$this->assertEquals('hidden', $element->get_type());
-
-		$element = WP_Form_Element::create('submit');
-		$this->assertEquals('submit', $element->get_type());
 
 		// fall back to text if type doesn't have a class
 		$element = WP_Form_Element::create('not_an_element_type');
@@ -142,5 +128,29 @@ class WP_Form_Element_Test extends WP_UnitTestCase {
 		$this->assertTrue($element3 === $elements[3]);
 		$this->assertTrue($element4 === $elements[4]);
 		$this->assertTrue($element6 === $elements[5]);
+	}
+
+	public function test_attributes() {
+		$element = WP_Form_Element::create('text');
+		$element->set_name('test-element')
+			->set_default_value('potato')
+			->set_attribute('id', 'test-element-id')
+			->set_attribute('placeholder', $element->get_default_value())
+			->set_attribute('class', 'blue green');
+
+		$this->assertEquals('test-element-id', $element->get_id());
+		$this->assertEquals('test-element-id', $element->get_attribute('id'));
+		$this->assertEquals('potato', $element->get_attribute('placeholder'));
+		$this->assertTrue(is_array($element->get_classes()));
+		$this->assertContains('blue', $element->get_classes());
+		$this->assertContains('green', $element->get_classes());
+
+		$element->add_class('yellow');
+		$this->assertContains('yellow', $element->get_classes());
+		$this->assertContains('blue', $element->get_classes());
+		$this->assertContains('green', $element->get_classes());
+
+		$element->remove_class('blue');
+		$this->assertNotContains('blue', $element->get_classes());
 	}
 }
