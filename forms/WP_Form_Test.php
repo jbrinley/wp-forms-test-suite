@@ -130,4 +130,24 @@ class WP_Form_Test extends WP_UnitTestCase {
 		$form->set_attribute('id', 'potato');
 		$this->assertEquals('potato', $form->get_id());
 	}
+
+	public function test_validators() {
+		$form = new WP_Form('test-form');
+		$form->add_validator('__return_true');
+		$form->add_validator(array($this, 'imaginary_callback1'));
+		$form->add_validator(array($this, 'imaginary_callback2'), 3);
+
+		$validators = $form->get_validators();
+		$this->assertEquals(3, count($validators));
+		$this->assertEquals(array($this, 'imaginary_callback2'), $validators[0]);
+		$this->assertEquals('__return_true', $validators[1]);
+		$this->assertEquals(array($this, 'imaginary_callback1'), $validators[2]);
+
+		// need correct priority to remove
+		$form->remove_validator(array($this, 'imaginary_callback2'));
+		$this->assertEquals(3, count($form->get_validators()));
+
+		$form->remove_validator(array($this, 'imaginary_callback1'));
+		$this->assertEquals(2, count($form->get_validators()));
+	}
 }
