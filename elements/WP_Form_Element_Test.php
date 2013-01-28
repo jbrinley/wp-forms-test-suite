@@ -153,4 +153,16 @@ class WP_Form_Element_Test extends WP_UnitTestCase {
 		$element->remove_class('blue');
 		$this->assertNotContains('blue', $element->get_classes());
 	}
+
+	public function test_set_type_attribute() {
+		$element = WP_Form_Element::create('text');
+		$this->setExpectedException('InvalidArgumentException');
+		$element->set_attribute('type', 'hidden');
+	}
+
+	public function test_set_value_attribute() {
+		$element = WP_Form_Element::create('text');
+		$this->setExpectedException('InvalidArgumentException');
+		$element->set_attribute('value', 'potato');
+	}
 }
