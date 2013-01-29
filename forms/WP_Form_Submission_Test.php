@@ -32,13 +32,15 @@ class WP_Form_Submission_Test extends WP_UnitTestCase {
 	public function test_submit() {
 		$form = new WP_form('test-form');
 		$form->add_processor(array($this, '_save_test_form'));
-		$data = array('test' => 12);
+		$data = array( 'test' => 12, 'potato' => array( 'red' => 2, 'yellow' => 4 ) );
 		$submission = new WP_Form_Submission( $form, $data );
 		$submission->submit();
-		$this->assertEquals(12, $this->submitted_value);
 	}
 
-	public function _save_test_form( array $data, WP_Form $form ) {
-		$this->submitted_value = $data['test'];
+	public function _save_test_form( WP_Form_Submission $submission, WP_Form $form ) {
+		$this->assertEquals(12, $submission->get_value('test'));
+		$this->assertTrue(is_array($submission->get_value('potato')));
+		$this->assertEquals(2, $submission->get_value('potato[red]'));
+		$this->assertEquals(4, $submission->get_value('potato[yellow]'));
 	}
 }
