@@ -23,21 +23,21 @@ class WP_Form_Submission_Test extends WP_UnitTestCase {
 		$this->assertFalse($bad_submission->is_valid());
 	}
 
-	public function _validate_is_twelve( array $data, WP_Error $errors, WP_Form $form ) {
-		if ( $data['test'] != 12 ) {
+	public function _validate_is_twelve( WP_Form_Submission $submission, WP_Error $errors, WP_Form $form ) {
+		if ( $submission->get_value('test') != 12 ) {
 			$errors->add('test', 'test is not 12');
 		}
 	}
 
 	public function test_submit() {
 		$form = new WP_form('test-form');
-		$form->add_processor(array($this, '_save_test_form'));
+		$form->add_processor(array($this, '_save_test_submit'));
 		$data = array( 'test' => 12, 'potato' => array( 'red' => 2, 'yellow' => 4 ) );
 		$submission = new WP_Form_Submission( $form, $data );
 		$submission->submit();
 	}
 
-	public function _save_test_form( WP_Form_Submission $submission, WP_Form $form ) {
+	public function _save_test_submit( WP_Form_Submission $submission, WP_Form $form ) {
 		$this->assertEquals(12, $submission->get_value('test'));
 		$this->assertTrue(is_array($submission->get_value('potato')));
 		$this->assertEquals(2, $submission->get_value('potato[red]'));
@@ -56,5 +56,34 @@ class WP_Form_Submission_Test extends WP_UnitTestCase {
 		$this->assertEquals('http://example.org', $submission->get_redirect());
 		$submission->set_redirect('http://example.com');
 		$this->assertEquals('http://example.com', $submission->get_redirect());
+	}
+
+	public function test_prepare_form() {
+		$form = new WP_form('test-form');
+		$form->add_element(WP_Form_Element::create('text')->set_name('test')->set_default_value(5));
+		$form->add_element(WP_Form_Element::create('text')->set_name('potato[red]'));
+		$form->add_element(WP_Form_Element::create('text')->set_name('potato[yellow]'), 'yellowpotato');
+		$form->add_validator(array($this, '_validate_test_prepare_form'));
+
+		$data = array( 'test' => 12, 'potato' => array( 'red' => 2, 'yellow' => 4 ) );
+		$submission = new WP_Form_Submission( $form, $data );
+		if ( !$submission->is_valid() ) {
+			$submission->prepare_form();
+		}
+
+		$this->assertEquals(12, $form->get_element('test')->get_value());
+		$this->assertEquals(array('Error on test'), $form->get_element('test')->get_errors());
+		$this->assertEquals(2, $form->get_element('potato[red]')->get_value());
+		$this->assertEquals(array('Red potato error'), $form->get_element('potato[red]')->get_errors());
+		$this->assertEquals(4, $form->get_element('yellowpotato')->get_value());
+		$this->assertEquals(array('Yellow potato error'), $form->get_element('yellowpotato')->get_errors());
+		$this->assertEquals(array('Top-level form error'), $form->get_errors());
+	}
+
+	public function _validate_test_prepare_form( WP_Form_Submission $submission, WP_Error $errors, WP_Form $form ) {
+		$errors->add('test-form', 'Top-level form error');
+		$errors->add('test', 'Error on test');
+		$errors->add('potato[red]', 'Red potato error');
+		$errors->add('potato[yellow]', 'Yellow potato error');
 	}
 }
