@@ -42,5 +42,19 @@ class WP_Form_Submission_Test extends WP_UnitTestCase {
 		$this->assertTrue(is_array($submission->get_value('potato')));
 		$this->assertEquals(2, $submission->get_value('potato[red]'));
 		$this->assertEquals(4, $submission->get_value('potato[yellow]'));
+
+	}
+
+	public function test_submission_redirect() {
+		$form = new WP_form('test-form');
+		$form->set_redirect('http://example.org');
+		$submission = new WP_Form_Submission( $form, array() );
+		$this->assertEquals('http://example.org', $submission->get_redirect());
+		$submission->set_redirect(NULL);
+		$this->assertEquals(NULL, $submission->get_redirect());
+		$submission->set_redirect();
+		$this->assertEquals('http://example.org', $submission->get_redirect());
+		$submission->set_redirect('http://example.com');
+		$this->assertEquals('http://example.com', $submission->get_redirect());
 	}
 }
