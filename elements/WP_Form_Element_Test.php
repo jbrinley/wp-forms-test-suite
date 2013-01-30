@@ -120,7 +120,7 @@ class WP_Form_Element_Test extends WP_UnitTestCase {
 		$element6 = WP_Form_Element::create('text')->set_priority(10);
 
 		$elements = array($element1, $element2, $element3, $element4, $element5, $element6);
-		WP_Form_Element::sort_elements($elements);
+		$elements = WP_Form_Element::sort_elements($elements);
 		$elements = array_values($elements);
 		$this->assertTrue($element5 === $elements[0]);
 		$this->assertTrue($element2 === $elements[1]);

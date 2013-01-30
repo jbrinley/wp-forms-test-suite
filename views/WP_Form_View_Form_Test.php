@@ -21,9 +21,13 @@ class WP_Form_View_Form_Test extends WP_UnitTestCase {
 		$child = WP_Form_Element::create('text')->set_name('potato');
 		$child->set_view(new WP_Form_View_Text());
 
+		$child2 = WP_Form_Element::create('text')->set_name('pistachio');
+		$child2->set_view(new WP_Form_View_Text());
+
 		$form->add_element($child);
+		$form->add_element($child2);
 		$output = $form->render();
 
-		$this->assertRegExp('!^<form[^>]*action=""[^>]*>.*<input[^>]*name="potato"[^>]*/>.*</form>$!', $output);
+		$this->assertRegExp('!^<form[^>]*action=""[^>]*>.*<input[^>]*name="potato"[^>]*/>.*<input[^>]*name="pistachio"[^>]*/>.*</form>$!', $output);
 	}
 }
