@@ -4,7 +4,7 @@ class WP_Form_Decorator_Description_Test extends WP_UnitTestCase {
 	public function test_description() {
 		$element = WP_Form_Element::create('text')
 			->set_description( 'This is my description' )
-			->set_view( new WP_Form_View_Text() )
+			->set_view( new WP_Form_View_Input() )
 			->add_decorator( 'WP_Form_Decorator_Description' );
 		$output = $element->render();
 
@@ -14,7 +14,7 @@ class WP_Form_Decorator_Description_Test extends WP_UnitTestCase {
 	public function test_default_class() {
 		$element = WP_Form_Element::create('text')
 			->set_description( 'This is my description' )
-			->set_view( new WP_Form_View_Text() )
+			->set_view( new WP_Form_View_Input() )
 			->add_decorator( 'WP_Form_Decorator_Description' );
 		$output = $element->render();
 
@@ -24,7 +24,7 @@ class WP_Form_Decorator_Description_Test extends WP_UnitTestCase {
 	public function test_class() {
 		$element = WP_Form_Element::create('text')
 			->set_description( 'This is my description' )
-			->set_view( new WP_Form_View_Text() )
+			->set_view( new WP_Form_View_Input() )
 			->add_decorator( 'WP_Form_Decorator_Description', array( 'attributes' => array( 'class' => 'potato')) );
 		$output = $element->render();
 
@@ -34,7 +34,7 @@ class WP_Form_Decorator_Description_Test extends WP_UnitTestCase {
 	public function test_tag() {
 		$element = WP_Form_Element::create('text')
 			->set_description( 'This is my description' )
-			->set_view( new WP_Form_View_Text() )
+			->set_view( new WP_Form_View_Input() )
 			->add_decorator( 'WP_Form_Decorator_Description', array( 'tag' => 'span' ) );
 		$output = $element->render();
 

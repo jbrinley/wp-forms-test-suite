@@ -107,8 +107,8 @@ class WP_Form_Element_Test extends WP_UnitTestCase {
 		$this->assertInstanceOf('WP_Form_View_Interface', $element->get_view());
 		$this->assertInstanceOf($decorator, $element->get_view());
 
-		$element->set_view( new WP_Form_View_Text() );
-		$this->assertInstanceOf('WP_Form_View_Text', $element->get_view());
+		$element->set_view( new WP_Form_View_Input() );
+		$this->assertInstanceOf('WP_Form_View_Input', $element->get_view());
 	}
 
 	public function test_sort() {

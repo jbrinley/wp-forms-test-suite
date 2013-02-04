@@ -3,7 +3,7 @@
 class WP_Form_Decorator_Errors_Test extends WP_UnitTestCase {
 	public function test_error() {
 		$element = WP_Form_Element::create('text')
-			->set_view( new WP_Form_View_Text() )
+			->set_view( new WP_Form_View_Input() )
 			->add_decorator( 'WP_Form_Decorator_Errors' )
 			->set_error('Explode!');
 		$output = $element->render();
@@ -20,7 +20,7 @@ class WP_Form_Decorator_Errors_Test extends WP_UnitTestCase {
 	}
 	public function test_multiple_errors() {
 		$element = WP_Form_Element::create('text')
-			->set_view( new WP_Form_View_Text() )
+			->set_view( new WP_Form_View_Input() )
 			->add_decorator( 'WP_Form_Decorator_Errors' )
 			->set_error('Explode!')
 			->set_error('Kaboom!');
