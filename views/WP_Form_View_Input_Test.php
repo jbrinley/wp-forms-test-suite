@@ -4,13 +4,13 @@ class WP_Form_View_Input_Test extends WP_UnitTestCase {
 	public function test_type_match() {
 		$element = WP_Form_Element::create('text');
 		$input_view = new WP_Form_View_Input();
-		//$select_view = new WP_Form_View_Select();
+		$select_view = new WP_Form_View_Select();
 
 		$element->set_view($input_view);
 		$this->assertNotEmpty($element->render());
 
-		//$element->set_view($select_view);
-		//$this->assertEmpty($element->render());
+		$element->set_view($select_view);
+		$this->assertEmpty($element->render());
 	}
 
 	public function test_attribute_escaping() {
