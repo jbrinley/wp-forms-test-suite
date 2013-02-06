@@ -32,4 +32,60 @@ class WP_Form_View_Select_Test extends WP_UnitTestCase {
 			$output
 		);
 	}
+
+	public function test_optgroups() {
+
+		/** @var WP_Form_Element_Select $element */
+		$element = WP_Form_Element::create('select')->set_name('my-select');
+		$element
+			->add_option( 'Warm', array(
+				'red' => 'Red',
+				'orange' => 'Orange',
+				'yellow' => 'Yellow',
+			) )
+			->add_option( 'Cold', array(
+				'green' => 'Green',
+				'blue' => 'Blue',
+				'purple' => 'Purple',
+			) );
+		$output = $element->render();
+
+		$this->assertTag(
+			array(
+				'tag' => 'select',
+				'attributes' => array(
+					'name' => 'my-select',
+				),
+				'children' => array(
+					'count' => 2,
+				)
+			),
+			$output
+		);
+		$this->assertTag(
+			array(
+				'tag' => 'optgroup',
+				'attributes' => array(
+					'label' => 'Warm',
+				),
+				'children' => array(
+					'count' => 3
+				)
+			),
+			$output
+		);
+		$this->assertTag(
+			array(
+				'tag' => 'option',
+				'attributes' => array(
+					'value' => 'red',
+				),
+				'content' => 'Red',
+				'parent' => array(
+					'tag' => 'optgroup',
+				)
+			),
+			$output
+		);
+	}
 }
