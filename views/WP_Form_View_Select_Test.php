@@ -105,8 +105,6 @@ class WP_Form_View_Select_Test extends WP_UnitTestCase {
 			->set_default_value('green');
 		$output = $element->render();
 
-		error_log(print_r($output, TRUE));
-
 		$this->assertTag(
 			array(
 				'tag' => 'option',
