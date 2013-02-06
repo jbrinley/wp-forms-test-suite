@@ -36,9 +36,8 @@ class WP_Form_Element_Test extends WP_UnitTestCase {
 		$this->assertEquals('text', $element->get_type());
 		$this->assertEquals('text', $element->type);
 
-		// fall back to text if type doesn't have a class
 		$element = WP_Form_Element::create('not_an_element_type');
-		$this->assertEquals('text', $element->get_type());
+		$this->assertEquals('not_an_element_type', $element->get_type());
 
 		// can't change type on an existing element
 		$this->setExpectedException('InvalidArgumentException');
