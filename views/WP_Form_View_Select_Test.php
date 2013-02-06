@@ -34,7 +34,6 @@ class WP_Form_View_Select_Test extends WP_UnitTestCase {
 	}
 
 	public function test_optgroups() {
-
 		/** @var WP_Form_Element_Select $element */
 		$element = WP_Form_Element::create('select')->set_name('my-select');
 		$element
@@ -87,5 +86,38 @@ class WP_Form_View_Select_Test extends WP_UnitTestCase {
 			),
 			$output
 		);
+	}
+
+	public function test_default_value() {
+		/** @var WP_Form_Element_Select $element */
+		$element = WP_Form_Element::create('select')->set_name('my-select');
+		$element
+			->add_option( 'Warm', array(
+				'red' => 'Red',
+				'orange' => 'Orange',
+				'yellow' => 'Yellow',
+			) )
+			->add_option( 'Cold', array(
+				'green' => 'Green',
+				'blue' => 'Blue',
+				'purple' => 'Purple',
+			) )
+			->set_default_value('green');
+		$output = $element->render();
+
+		error_log(print_r($output, TRUE));
+
+		$this->assertTag(
+			array(
+				'tag' => 'option',
+				'attributes' => array(
+					'value' => 'green',
+					'selected' => 'selected',
+				),
+				'content' => 'Green',
+			),
+			$output
+		);
+
 	}
 }
