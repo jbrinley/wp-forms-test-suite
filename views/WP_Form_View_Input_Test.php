@@ -51,6 +51,42 @@ class WP_Form_View_Input_Test extends WP_UnitTestCase {
 		$this->assertRegExp('!^<input[^>]*class="potato"[^>]*/>$!', $output);
 	}
 
+	public function test_button() {
+		$element = WP_Form_Element::create('button')
+			->set_value('Click Me');
+		$element->set_view(new WP_Form_View_Input());
+
+		$output = $element->render();
+		$this->assertTag(
+			array(
+				'tag' => 'input',
+				'attributes' => array(
+					'type' => 'button',
+					'value' => 'Click Me',
+				)
+			),
+			$output
+		);
+	}
+
+	public function test_reset() {
+		$element = WP_Form_Element::create('reset')
+			->set_value('Reset Form');
+		$element->set_view(new WP_Form_View_Input());
+
+		$output = $element->render();
+		$this->assertTag(
+			array(
+				'tag' => 'input',
+				'attributes' => array(
+					'type' => 'reset',
+					'value' => 'Reset Form',
+				)
+			),
+			$output
+		);
+	}
+
 	public function test_hidden() {
 		$element = WP_Form_Element::create('hidden')
 			->set_name('potato')
