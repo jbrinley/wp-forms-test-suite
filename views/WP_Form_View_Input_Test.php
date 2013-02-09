@@ -87,6 +87,24 @@ class WP_Form_View_Input_Test extends WP_UnitTestCase {
 		);
 	}
 
+	public function test_password() {
+		$element = WP_Form_Element::create('password')
+			->set_name('pwd');
+		$element->set_view(new WP_Form_View_Input());
+
+		$output = $element->render();
+		$this->assertTag(
+			array(
+				'tag' => 'input',
+				'attributes' => array(
+					'type' => 'password',
+					'name' => 'pwd',
+				)
+			),
+			$output
+		);
+	}
+
 	public function test_hidden() {
 		$element = WP_Form_Element::create('hidden')
 			->set_name('potato')
