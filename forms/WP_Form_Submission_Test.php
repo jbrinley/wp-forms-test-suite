@@ -23,9 +23,9 @@ class WP_Form_Submission_Test extends WP_UnitTestCase {
 		$this->assertFalse($bad_submission->is_valid());
 	}
 
-	public function _validate_is_twelve( WP_Form_Submission $submission, WP_Error $errors, WP_Form $form ) {
+	public function _validate_is_twelve( WP_Form_Submission $submission, WP_Form $form ) {
 		if ( $submission->get_value('test') != 12 ) {
-			$errors->add('test', 'test is not 12');
+			$submission->add_error('test', 'test is not 12');
 		}
 	}
 
@@ -80,10 +80,10 @@ class WP_Form_Submission_Test extends WP_UnitTestCase {
 		$this->assertEquals(array('Top-level form error'), $form->get_errors());
 	}
 
-	public function _validate_test_prepare_form( WP_Form_Submission $submission, WP_Error $errors, WP_Form $form ) {
-		$errors->add('test-form', 'Top-level form error');
-		$errors->add('test', 'Error on test');
-		$errors->add('potato[red]', 'Red potato error');
-		$errors->add('potato[yellow]', 'Yellow potato error');
+	public function _validate_test_prepare_form( WP_Form_Submission $submission, WP_Form $form ) {
+		$submission->add_error('test-form', 'Top-level form error');
+		$submission->add_error('test', 'Error on test');
+		$submission->add_error('potato[red]', 'Red potato error');
+		$submission->add_error('potato[yellow]', 'Yellow potato error');
 	}
 }
