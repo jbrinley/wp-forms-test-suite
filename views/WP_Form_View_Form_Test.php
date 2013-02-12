@@ -30,4 +30,46 @@ class WP_Form_View_Form_Test extends WP_UnitTestCase {
 
 		$this->assertRegExp('!^<form[^>]*action=""[^>]*>.*<input[^>]*name="potato"[^>]*/>.*<input[^>]*name="pistachio"[^>]*/>.*</form>$!', $output);
 	}
+
+	public function test_partial() {
+		$form = new WP_Form('test-form');
+		$form->set_view(new WP_Form_View_PartialForm());
+
+		$child = WP_Form_Element::create('text')->set_name('potato');
+		$child->set_view(new WP_Form_View_Input());
+
+		$child2 = WP_Form_Element::create('text')->set_name('pistachio');
+		$child2->set_view(new WP_Form_View_Input());
+
+		$form->add_element($child);
+		$form->add_element($child2);
+		$output = $form->render();
+
+		$this->assertNotTag(
+			array(
+				'tag' => 'form',
+			),
+			$output
+		);
+
+		$this->assertTag(
+			array(
+				'tag' => 'input',
+				'attributes' => array(
+					'name' => 'potato'
+				),
+			),
+			$output
+		);
+
+		$this->assertTag(
+			array(
+				'tag' => 'input',
+				'attributes' => array(
+					'name' => 'pistachio'
+				),
+			),
+			$output
+		);
+	}
 }
