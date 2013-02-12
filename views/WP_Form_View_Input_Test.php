@@ -116,4 +116,22 @@ class WP_Form_View_Input_Test extends WP_UnitTestCase {
 		$this->assertRegExp('!^<input[^>]*name="potato"[^>]*/>$!', $output);
 		$this->assertRegExp('!^<input[^>]*class="pimiento"[^>]*/>$!', $output);
 	}
+
+	public function test_file() {
+		$element = WP_Form_Element::create('file')
+			->set_name('a_file');
+		$element->set_view(new WP_Form_View_Input());
+
+		$output = $element->render();
+		$this->assertTag(
+			array(
+				'tag' => 'input',
+				'attributes' => array(
+					'type' => 'file',
+					'name' => 'a_file',
+				)
+			),
+			$output
+		);
+	}
 }
