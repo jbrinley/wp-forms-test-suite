@@ -10,6 +10,19 @@ class WP_Form_Test extends WP_UnitTestCase {
 		$this->assertNull($form->get_element( 'another-element' ));
 	}
 
+	public function test_accessors() {
+		$form = new WP_Form( 'test-form' );
+		$this->assertEquals( 'test-form', $form->id );
+		$this->assertEquals( 'post', $form->method );
+		$this->assertInstanceOf( 'WP_Form_View_Interface', $form->view );
+
+		$form->view = new WP_Form_View_PartialForm();
+		$this->assertInstanceOf( 'WP_Form_View_PartialForm', $form->view );
+
+		$form->method = 'GET';
+		$this->assertEquals( 'get', $form->method );
+	}
+
 	public function test_type() {
 		$form = new WP_Form( 'test-form' );
 		$this->assertEquals('form', $form->get_type());
