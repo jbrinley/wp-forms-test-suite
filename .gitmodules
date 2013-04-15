@@ -1,6 +1,3 @@
-[submodule "wordpress-tests"]
-	path = wordpress-tests
-	url = git@github.com:nb/wordpress-tests.git
 [submodule "wordpress-unit-tests"]
 	path = wordpress-unit-tests
 	url = git@github.com:buddypress/wordpress-unit-tests.git
