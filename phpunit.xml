@@ -13,11 +13,11 @@
 		>
 	<testsuites>
 		<testsuite name="WP Forms Test Suite">
-			<directory>./general</directory>
-			<directory>./elements</directory>
-			<directory>./views</directory>
-			<directory>./decorators</directory>
-			<directory>./forms</directory>
+			<directory>./test_cases/general</directory>
+			<directory>./test_cases/elements</directory>
+			<directory>./test_cases/views</directory>
+			<directory>./test_cases/decorators</directory>
+			<directory>./test_cases/forms</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

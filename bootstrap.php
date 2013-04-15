@@ -8,4 +8,4 @@ $GLOBALS['wp_tests_options'] = array(
 	'stylesheet' => 'twentytwelve',
 );
 
-require_once(dirname(__FILE__).'/wordpress-tests/bootstrap.php');
+require_once(dirname(__FILE__).'/wordpress-unit-tests/trunk/includes/bootstrap.php');
