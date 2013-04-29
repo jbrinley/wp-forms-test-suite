@@ -86,4 +86,20 @@ class WP_Form_Submission_Test extends WP_UnitTestCase {
 		$submission->add_error('potato[red]', 'Red potato error');
 		$submission->add_error('potato[yellow]', 'Yellow potato error');
 	}
+
+	public function test_slashes() {
+		$form = new WP_form('test-form');
+		$form->add_processor(array($this, '_save_test_slashes'));
+		$data = array(
+			'no_slash' => addslashes("I haven't got a potato"),
+			'slashed' => addslashes("But I've certainly got a backslash (\\).")
+		);
+		$submission = new WP_Form_Submission( $form, $data );
+		$submission->submit();
+	}
+
+	public function _save_test_slashes( WP_Form_Submission $submission, WP_Form $form ) {
+		$this->assertEquals("I haven't got a potato", $submission->get_value('no_slash'));
+		$this->assertEquals("But I've certainly got a backslash (\\).", $submission->get_value('slashed'));
+	}
 }
