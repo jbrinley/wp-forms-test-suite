@@ -10,6 +10,28 @@ class WP_Form_Test extends WP_UnitTestCase {
 		$this->assertNull($form->get_element( 'another-element' ));
 	}
 
+	public function test_get_nested_element() {
+		$form = new WP_Form( 'test-form' );
+		$fieldset = WP_Form_Element::create('fieldset')->set_name('test-fieldset');
+		$element = WP_Form_Element::create('text')->set_name('test-element');
+		$fieldset->add_element($element);
+		$form->add_element($fieldset);
+
+		$this->assertTrue( $element === $form->get_element( 'test-element' ) );
+	}
+
+	public function test_get_doubly_nested_element() {
+		$form = new WP_Form( 'test-form' );
+		$fieldset1 = WP_Form_Element::create('fieldset')->set_name('test-fieldset1');
+		$fieldset2 = WP_Form_Element::create('fieldset')->set_name('test-fieldset2');
+		$element = WP_Form_Element::create('text')->set_name('test-element');
+		$fieldset2->add_element($element);
+		$fieldset1->add_element($fieldset2);
+		$form->add_element($fieldset1);
+
+		$this->assertTrue( $element === $form->get_element( 'test-element' ) );
+	}
+
 	public function test_accessors() {
 		$form = new WP_Form( 'test-form' );
 		$this->assertEquals( 'test-form', $form->id );
